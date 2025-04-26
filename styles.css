@@ -1,0 +1,417 @@
+:root {
+    --primary-color: #ff9f43;
+    --secondary-color: #4ecdc4;
+    --background-color: #f7f1e3;
+    --text-color: #2d3436;
+    --success-color: #00b894;
+    --warning-color: #fdcb6e;
+    --danger-color: #ff7675;
+    --transport-color: #3F51B5;
+    --shopping-color: #9C27B0;
+    --home-color: #FF9800;
+    --food-color: #4CAF50;
+    --panel-bg: rgba(26, 26, 46, 0.8);
+    --card-bg: rgba(42, 42, 58, 0.8);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    overflow: hidden;
+}
+
+#game-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(247, 241, 227, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.start-screen h1 {
+    font-size: 4em;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 0 #fff;
+}
+
+.start-screen p {
+    font-size: 1.5em;
+    color: var(--text-color);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+#start-button {
+    padding: 15px 30px;
+    font-size: 1.5em;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+#start-button:hover {
+    transform: scale(1.1);
+}
+
+.ui-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.stats-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    pointer-events: auto;
+    width: 250px;
+    z-index: 20;
+}
+
+.stats-panel h2 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-value {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.stat-label {
+    font-size: 0.8em;
+    color: var(--text-color);
+}
+
+.interaction-prompt {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 1.2em;
+    display: none;
+    pointer-events: none;
+}
+
+#modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    pointer-events: auto;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+.modal-description {
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    line-height: 1.4;
+}
+
+.modal-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-option {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-option:hover {
+    transform: scale(1.02);
+    background-color: #e9ecef;
+}
+
+.option-details {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9em;
+}
+
+.impact {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+.impact.positive {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.impact.negative {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.cost {
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: var(--warning-color);
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2em;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.close:hover {
+    transform: scale(1.2);
+}
+
+.feedback-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px 30px;
+    border-radius: 20px;
+    font-size: 1.5em;
+    display: flex;
+    gap: 20px;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.settings-panel {
+    position: fixed;
+    top: 20px;
+    right: 290px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none;
+    pointer-events: auto;
+    width: 250px;
+    z-index: 20;
+}
+
+.settings-panel h2 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.setting-group {
+    margin-bottom: 15px;
+}
+
+.setting-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.setting-group input[type="range"] {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.setting-group select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid var(--primary-color);
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+#apply-settings {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 1.1em;
+}
+
+#apply-settings:hover {
+    transform: scale(1.05);
+}
+
+.settings-confirmation {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+#settings-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+}
+
+#settings-button:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: rotate(90deg);
+}
+
+#settings-button i {
+    color: white;
+    font-size: 20px;
+}
+
+#history-list {
+    display: none;
+}
+
+.history-entry {
+    display: none;
+}
+
+.controls-help {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    pointer-events: auto;
+    width: 250px;
+    z-index: 10;
+}
+
+.controls-help h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 5px 15px;
+}
+
+.control-key {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .stats-panel {
+        top: 10px;
+        right: 10px;
+        width: 45%;
+    }
+
+    .settings-panel {
+        top: 10px;
+        right: 10px;
+        width: 45%;
+    }
+
+    .controls-help {
+        bottom: 10px;
+        left: 10px;
+        width: 45%;
+    }
+} 

@@ -1,0 +1,32 @@
+{
+  "name": "sustainable-farm-simulator",
+  "version": "1.0.0",
+  "description": "An educational game teaching sustainable farming practices",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vjuricek101/hacktech2025.git"
+  },
+  "keywords": [
+    "education",
+    "sustainability",
+    "farming",
+    "simulation",
+    "game"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vjuricek101/hacktech2025/issues"
+  },
+  "homepage": "https://github.com/vjuricek101/hacktech2025#readme",
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "inquirer": "^8.2.5",
+    "readline-sync": "^1.4.10"
+  }
+}

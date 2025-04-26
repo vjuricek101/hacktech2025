@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustainable Living Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/PointerLockControls.js"></script>
+</head>
+<body>
+    <div id="game-container">
+        <!-- 3D Game Canvas will be inserted here -->
+    </div>
+
+    <div class="start-screen">
+        <h1>Sustainable Living Simulator</h1>
+        <p>Learn about sustainable living through interactive 3D gameplay!</p>
+        <button id="start-button">Start Game</button>
+        <div class="controls-help">
+            <h3>Controls</h3>
+            <div class="controls-grid">
+                <div class="control-item">
+                    <span class="control-key">W</span>
+                    <span>Move Forward</span>
+                </div>
+                <div class="control-item">
+                    <span class="control-key">S</span>
+                    <span>Move Backward</span>
+                </div>
+                <div class="control-item">
+                    <span class="control-key">A</span>
+                    <span>Move Left</span>
+                </div>
+                <div class="control-item">
+                    <span class="control-key">D</span>
+                    <span>Move Right</span>
+                </div>
+                <div class="control-item">
+                    <span class="control-key">E</span>
+                    <span>Interact</span>
+                </div>
+                <div class="control-item">
+                    <span class="control-key">ESC</span>
+                    <span>Pause/Menu</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui-overlay">
+        <button id="settings-button" class="icon-button">
+            <i class="fas fa-cog"></i>
+        </button>
+        <div class="stats-panel">
+            <h2>Your Impact</h2>
+            <div class="stat">
+                <span>Carbon Footprint</span>
+                <div class="progress-container" data-value="100">
+                    <div class="progress"></div>
+                </div>
+                <span id="carbon-footprint">100</span>
+            </div>
+            <div class="stat">
+                <span>Water Usage</span>
+                <div class="progress-container" data-value="100">
+                    <div class="progress"></div>
+                </div>
+                <span id="water-usage">100</span>
+            </div>
+            <div class="stat">
+                <span>Waste Production</span>
+                <div class="progress-container" data-value="100">
+                    <div class="progress"></div>
+                </div>
+                <span id="waste-production">100</span>
+            </div>
+            <div class="stat">
+                <span>Energy Usage</span>
+                <div class="progress-container" data-value="100">
+                    <div class="progress"></div>
+                </div>
+                <span id="energy-usage">100</span>
+            </div>
+            <div class="stat">
+                <span>Money</span>
+                <span id="money">$1000</span>
+            </div>
+            <div class="stat">
+                <span>Sustainability Score</span>
+                <span id="sustainability-score">0</span>
+            </div>
+        </div>
+
+        <div class="quest-panel">
+            <h2>Quests</h2>
+            <div class="quest">
+                <span>Transportation Choices</span>
+                <div class="progress-container" data-value="0">
+                    <div class="progress"></div>
+                </div>
+                <span id="transport-quest">0/3</span>
+            </div>
+            <div class="quest">
+                <span>Sustainable Shopping</span>
+                <div class="progress-container" data-value="0">
+                    <div class="progress"></div>
+                </div>
+                <span id="shopping-quest">0/2</span>
+            </div>
+        </div>
+
+        <div class="interaction-prompt">
+            Press E to interact
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title"></h2>
+            <div id="modal-options"></div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html> 
