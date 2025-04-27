@@ -23,6 +23,10 @@ class Game {
         this.carbonFootprint = 0;
         this.soilQuality = 100; // Starts at 100%
         
+        // Add soil depletion threshold
+        this.soilDepletionThreshold = 30; // Soil quality below this cannot be planted on
+        this.soilRestorationThreshold = 50; // Soil must reach this quality to be plantable again
+        
         // Crop types and their properties
         this.cropTypes = {
             corn: {
@@ -177,6 +181,11 @@ class Game {
             // Ensure soil quality stays within bounds
             this.soilQuality = Math.max(0, Math.min(100, this.soilQuality));
             tile.soilQuality = Math.max(0, Math.min(100, tile.soilQuality));
+            
+            // If soil is severely depleted, mark it as depleted
+            if (tile.soilQuality < this.soilDepletionThreshold) {
+                tile.state = 'depleted';
+            }
         }
     }
 
@@ -246,14 +255,14 @@ class Game {
             
             switch (this.selectedTool) {
                 case 'hoe':
-                    if (tile.state === 'untilled') {
+                    if (tile.state === 'untilled' && tile.soilQuality >= this.soilRestorationThreshold) {
                         tile.state = 'tilled';
                         this.carbonFootprint += 1;
                         this.checkGameOver();
                     }
                     break;
                 case 'seeds':
-                    if (tile.state === 'tilled' && this.selectedCrop) {
+                    if (tile.state === 'tilled' && this.selectedCrop && tile.soilQuality >= this.soilRestorationThreshold) {
                         // Check if player can afford the seeds
                         const crop = this.cropTypes[this.selectedCrop];
                         if (this.money >= crop.basePrice / 2) {
@@ -274,15 +283,23 @@ class Game {
                             this.updateSustainability(tile);
                             this.checkGameOver();
                         }
+                    } else if (tile.state === 'depleted') {
+                        // Watering depleted soil helps restore it
+                        tile.soilQuality += 5;
+                        if (tile.soilQuality >= this.soilRestorationThreshold) {
+                            tile.state = 'untilled';
+                        }
                     }
                     break;
                 case 'harvest':
-                    const harvestValue = this.harvest(tile);
-                    if (harvestValue > 0) {
-                        // Show harvest value popup at the tile's center
-                        const tileCenterX = gridX * this.tileSize + this.tileSize / 2;
-                        const tileCenterY = gridY * this.tileSize + this.tileSize / 2;
-                        this.showHarvestPopup(tileCenterX, tileCenterY, harvestValue);
+                    if (tile.state === 'ready') {
+                        const harvestValue = this.harvest(tile);
+                        if (harvestValue > 0) {
+                            // Show harvest value popup at the tile's center
+                            const tileCenterX = gridX * this.tileSize + this.tileSize / 2;
+                            const tileCenterY = gridY * this.tileSize + this.tileSize / 2;
+                            this.showHarvestPopup(tileCenterX, tileCenterY, harvestValue);
+                        }
                     }
                     break;
             }
@@ -481,6 +498,14 @@ class Game {
                 
                 // Draw tile state
                 switch (tile.state) {
+                    case 'depleted':
+                        // Draw warning pattern for depleted soil
+                        this.ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+                        this.ctx.fillRect(xPos, yPos, this.tileSize, this.tileSize);
+                        this.ctx.fillStyle = '#FF0000';
+                        this.ctx.font = '12px Arial';
+                        this.ctx.fillText('⚠', xPos + 5, yPos + 15);
+                        break;
                     case 'tilled':
                         this.ctx.fillStyle = '#8B4513';
                         this.ctx.fillRect(xPos, yPos, this.tileSize, this.tileSize);
