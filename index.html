@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Farming Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="instructions">
+        <h2>How to Play</h2>
+        <p>Use WASD to move</p>
+        <p>Press space to use selected tool</p>
+        <p>Click tools to select them</p>
+        <div class="sustainability-info">
+            <h3>Sustainability Tips</h3>
+            <p>• Beans improve soil quality</p>
+            <p>• Corn reduces carbon but depletes soil</p>
+            <p>• Wheat has balanced impact</p>
+            <h3>Crop Rotation</h3>
+            <p>• Plant corn after beans (+50% value)</p>
+            <p>• Plant wheat after corn (+30% value)</p>
+            <p>• Plant beans after wheat (+20% value)</p>
+            <p>• Avoid planting same crop twice (-30% to -10% value)</p>
+        </div>
+    </div>
+    <div class="game-container">
+        <div class="game-over-screen" style="display: none;">
+            <div class="game-over-content">
+                <h2>Game Over</h2>
+                <p id="game-over-message"></p>
+                <p>Final Money: $<span id="final-money">0</span></p>
+                <p>Final Carbon Footprint: <span id="final-carbon">0</span> tons</p>
+                <p>Final Soil Quality: <span id="final-soil">0</span>%</p>
+                <button onclick="restartGame()">Play Again</button>
+            </div>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+        <div class="inventory">
+            <div class="hotbar">
+                <div class="hotbar-slot" data-slot="1">
+                    <div class="item" data-tool="hoe">Hoe</div>
+                </div>
+                <div class="hotbar-slot" data-slot="2">
+                    <div class="item" data-tool="water">Water</div>
+                </div>
+                <div class="hotbar-slot" data-slot="3">
+                    <div class="item" data-tool="harvest">Harvest</div>
+                </div>
+                <div class="hotbar-slot" data-slot="4">
+                    <div class="item" data-crop="corn">Corn ($15)</div>
+                </div>
+                <div class="hotbar-slot" data-slot="5">
+                    <div class="item" data-crop="beans">Beans ($10)</div>
+                </div>
+                <div class="hotbar-slot" data-slot="6">
+                    <div class="item" data-crop="wheat">Wheat ($12)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html> 
