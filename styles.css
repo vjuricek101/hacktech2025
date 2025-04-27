@@ -25,14 +25,65 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     overflow: hidden;
+    transition: background 1s ease;
 }
 
 #game-container {
-    position: fixed;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(45deg, #a0c8f0, #c4f0b0, #f9e0a6, #f5b0d2, #f5a7a7);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    transition: background 0.5s ease;
+    z-index: 0;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+#game-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2));
+    background-size: 200% 200%;
+    animation: shimmer 8s ease infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+canvas {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 1;
 }
 
 .start-screen {
@@ -85,50 +136,91 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
+
     pointer-events: none;
-    z-index: 10;
+    z-index: 2;
 }
 
 .stats-panel {
     position: fixed;
     top: 20px;
     right: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.7);
     padding: 15px;
     border-radius: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     pointer-events: auto;
     width: 250px;
     z-index: 20;
+    backdrop-filter: blur(5px);
 }
 
 .stats-panel h2 {
-    color: var(--primary-color);
-    margin-bottom: 10px;
+    color: #ff9f43;
+    margin-bottom: 15px;
     font-size: 1.2em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
 }
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 12px;
 }
 
 .stat-item {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
+    padding: 8px 12px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-.stat-value {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: var(--text-color);
+.stat-item:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    transform: translateY(-2px);
 }
 
 .stat-label {
-    font-size: 0.8em;
-    color: var(--text-color);
+    font-weight: 600;
+    color: #636e72;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-value {
+    font-weight: 700;
+    color: #2d3436;
+    font-size: 1.1em;
+}
+
+.carbon-footprint .stat-value {
+    color: #ff7675;
+}
+
+.water-usage .stat-value {
+    color: #74b9ff;
+}
+
+.waste-production .stat-value {
+    color: #fdcb6e;
+}
+
+.energy-usage .stat-value {
+    color: #00b894;
+}
+
+.money .stat-value {
+    color: #a29bfe;
 }
 
 .interaction-prompt {
@@ -396,6 +488,297 @@ body {
     color: var(--primary-color);
 }
 
+.avatar-options {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.avatar-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.avatar-option:hover {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.avatar-option.selected {
+    transform: scale(1.1);
+    background-color: rgba(var(--primary-color), 0.2);
+}
+
+.avatar-preview {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    margin-bottom: 3px;
+}
+
+.avatar-preview.default {
+    background-color: #ff9f43;
+}
+
+.avatar-preview.eco {
+    background-color: #00b894;
+}
+
+.avatar-preview.student {
+    background-color: #3498db;
+}
+
+.avatar-preview.professional {
+    background-color: #9b59b6;
+}
+
+.avatar-option span {
+    font-size: 0.7em;
+    color: var(--text-color);
+}
+
+.start-screen .avatar-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.start-screen .avatar-option {
+    padding: 10px;
+    margin: 0 5px;
+}
+
+.start-screen .avatar-option span {
+    font-size: 1em;
+}
+
+.climate-event {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 20px;
+    font-size: 1.5em;
+    z-index: 1000;
+    display: none;
+    pointer-events: none;
+}
+
+.climate-stats-bar {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    color: #2d3436;
+    padding: 12px 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    z-index: 100;
+    font-size: 1.1em;
+    border-radius: 0 0 15px 15px;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.climate-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    position: relative;
+}
+
+.climate-stat:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    transform: translateY(-2px);
+}
+
+.climate-stat:hover .year-explanation,
+.climate-stat:hover .temperature-explanation {
+    display: block;
+}
+
+.year-explanation {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.year-explanation h3 {
+    color: #636e72;
+    margin-bottom: 10px;
+    font-size: 1em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.date-display {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    gap: 10px;
+}
+
+.date-display:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.day-progress {
+    flex: 1;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.day-progress-fill {
+    height: 100%;
+    background-color: #ff9f43;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.day-progress-text {
+    font-size: 0.8em;
+    color: #636e72;
+    white-space: nowrap;
+}
+
+.temperature-explanation {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.temperature-explanation h3 {
+    color: #636e72;
+    margin-bottom: 10px;
+    font-size: 1em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.temperature-range {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.temperature-range:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.temperature-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.temperature-description {
+    font-size: 0.9em;
+    color: #2d3436;
+}
+
+.freezing {
+    background-color: #87CEEB;
+}
+
+.cold {
+    background-color: #a0c8f0;
+}
+
+.cool {
+    background-color: #b0e0e6;
+}
+
+.warm {
+    background-color: #f9e0a6;
+}
+
+.hot {
+    background-color: #f5b0d2;
+}
+
+.very-hot {
+    background-color: #f5a7a7;
+}
+
+
+.climate-stat span:first-child {
+    font-weight: 600;
+    color: #636e72;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
+}
+
+.climate-stat span:last-child {
+    font-weight: 700;
+    color: #ff9f43;
+    font-size: 1.1em;
+    text-shadow: 0 0 10px rgba(255, 159, 67, 0.2);
+}
+
+#climate-year {
+    color: #ff9f43 !important;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(255, 159, 67, 0.2);
+}
+
+#climate-temp {
+    color: #ff9f43 !important;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(255, 159, 67, 0.2);
+}
+
+#climate-co2 {
+    color: #ff9f43 !important;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(255, 159, 67, 0.2);
+}
+
 @media (max-width: 768px) {
     .stats-panel {
         top: 10px;
@@ -414,4 +797,370 @@ body {
         left: 10px;
         width: 45%;
     }
+}
+
+.status-bars {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    pointer-events: auto;
+    width: 200px;
+    z-index: 20;
+    backdrop-filter: blur(5px);
+}
+
+.status-bar {
+    margin-bottom: 10px;
+}
+
+.status-bar:last-child {
+    margin-bottom: 0;
+}
+
+.status-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #636e72;
+}
+
+.status-bar-fill {
+    height: 10px;
+    border-radius: 5px;
+    background-color: #e0e0e0;
+    overflow: hidden;
+}
+
+.status-bar-progress {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.3s ease;
+}
+
+.hunger .status-bar-progress {
+    background-color: #fdcb6e;
+}
+
+.exhaustion .status-bar-progress {
+    background-color: #74b9ff;
+}
+
+.time-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 10px;
+    z-index: 20;
+    backdrop-filter: blur(5px);
+}
+
+.time-button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #2d3436;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+}
+
+.time-button:hover {
+    background-color: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+}
+
+.time-button.active {
+    background-color: #ff9f43;
+    color: white;
+}
+
+.time-button i {
+    font-size: 1.1em;
+}
+
+.time-button-tooltip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    font-size: 0.9em;
+    color: #2d3436;
+    text-align: center;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+.time-button:hover .time-button-tooltip {
+    display: block;
+}
+
+.time-display {
+    padding: 8px 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    font-size: 0.9em;
+    color: #2d3436;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+    cursor: default;
+}
+
+.time-display:hover {
+    background-color: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+}
+
+.time-display:hover .time-button-tooltip {
+    display: block;
+}
+
+/* Remove quest panel styles */
+.quest-panel {
+    display: none;
+}
+
+.death-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.death-popup-content {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.death-popup h2 {
+    color: #ff7675;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.death-popup p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: #2d3436;
+}
+
+.death-popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.death-popup-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 20px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: transform 0.2s;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.death-popup-button:hover {
+    transform: scale(1.05);
+}
+
+.death-popup-button.revert {
+    background-color: #74b9ff;
+    color: white;
+}
+
+.death-popup-button.restart {
+    background-color: #ff7675;
+    color: white;
+}
+
+.object-tooltip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    width: 220px;
+    font-size: 0.95em;
+    color: #2d3436;
+    text-align: center;
+    z-index: 4000; 
+    backdrop-filter: blur(5px);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.object-tooltip h3 {
+    color: #ff9f43;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.object-tooltip p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #636e72;
+}
+
+/* Enhanced object styles */
+.object {
+    position: absolute;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.object:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.object:hover .object-tooltip {
+    display: block;
+}
+
+/* Specific object styles */
+.object.transport {
+    background: linear-gradient(45deg, #3F51B5, #5C6BC0);
+    border: 2px solid #1A237E;
+}
+
+.object.shopping {
+    background: linear-gradient(45deg, #9C27B0, #AB47BC);
+    border: 2px solid #4A148C;
+}
+
+.object.house {
+    background: linear-gradient(45deg, #FF9800, #FFA726);
+    border: 2px solid #E65100;
+}
+
+.object.kitchen {
+    background: linear-gradient(45deg, #4CAF50, #66BB6A);
+    border: 2px solid #1B5E20;
+}
+
+.object.garden {
+    background: linear-gradient(45deg, #00b894, #00cec9);
+    border: 2px solid #006266;
+}
+
+.object.bathroom {
+    background: linear-gradient(45deg, #74b9ff, #0984e3);
+    border: 2px solid #0c2461;
+}
+
+.object.living {
+    background: linear-gradient(45deg, #a29bfe, #6c5ce7);
+    border: 2px solid #2d3436;
+}
+
+.object.thrift {
+    background: linear-gradient(45deg, #fdcb6e, #ffeaa7);
+    border: 2px solid #d35400;
+}
+
+.object.market {
+    background: linear-gradient(45deg, #00b894, #55efc4);
+    border: 2px solid #006266;
+}
+
+.object.store {
+    background: linear-gradient(45deg, #00cec9, #81ecec);
+    border: 2px solid #00cec9;
+}
+.object.bed {
+    background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+    border: 2px solid #2d3436;
 } 
+
+.object.library {
+    background: linear-gradient(45deg, #81ecec, #74b9ff);
+    border: 2px solid #0984e3;
+}
+
+.object.park {
+    background: linear-gradient(45deg, #55efc4, #00cec9);
+    border: 2px solid #009688;
+}
+
+.object.forest {
+    background: linear-gradient(45deg, #00b894, #006266);
+    border: 2px solid #004d40;
+}
+
+#global-tooltip {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    font-size: 0.95em;
+    color: #2d3436;
+    text-align: center;
+    z-index: 5000; /* Higher than everything else */
+    backdrop-filter: blur(5px);
+    pointer-events: none;
+    display: none;
+    transform: translate(-50%, -100%);
+    transition: opacity 0.3s ease;
+}
+
+#global-tooltip h3 {
+    color: var(--primary-color);
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+#global-tooltip p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #636e72;
+}
+
+#game-container.no-animation {
+    animation: none !important;
+}

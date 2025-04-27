@@ -1,4 +1,3 @@
-const readlineSync = require('readline-sync');
 const chalk = require('chalk').default;
 const inquirer = require('inquirer');
 

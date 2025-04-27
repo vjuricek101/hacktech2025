@@ -18,6 +18,29 @@
     <div class="start-screen">
         <h1>Sustainable Living Simulator</h1>
         <p>Learn about sustainable living through interactive 3D gameplay!</p>
+        
+        <div class="avatar-selection">
+            <h2>Choose Your Avatar</h2>
+            <div class="avatar-options">
+                <div class="avatar-option" data-avatar="default">
+                    <div class="avatar-preview default"></div>
+                    <span>Default</span>
+                </div>
+                <div class="avatar-option" data-avatar="eco">
+                    <div class="avatar-preview eco"></div>
+                    <span>Eco Warrior</span>
+                </div>
+                <div class="avatar-option" data-avatar="student">
+                    <div class="avatar-preview student"></div>
+                    <span>Student</span>
+                </div>
+                <div class="avatar-option" data-avatar="professional">
+                    <div class="avatar-preview professional"></div>
+                    <span>Professional</span>
+                </div>
+            </div>
+        </div>
+
         <button id="start-button">Start Game</button>
         <div class="controls-help">
             <h3>Controls</h3>
@@ -51,46 +74,26 @@
     </div>
 
     <div class="ui-overlay">
+        <div id="global-tooltip" class="object-tooltip"></div>
         <button id="settings-button" class="icon-button">
             <i class="fas fa-cog"></i>
         </button>
         <div class="stats-panel">
             <h2>Your Impact</h2>
             <div class="stat">
-                <span>Carbon Footprint</span>
-                <div class="progress-container" data-value="100">
-                    <div class="progress"></div>
-                </div>
-                <span id="carbon-footprint">100</span>
+                <span class="stat-label">Carbon Footprint: <span id="carbon-footprint" class="stat-value">100</span></span>
             </div>
             <div class="stat">
-                <span>Water Usage</span>
-                <div class="progress-container" data-value="100">
-                    <div class="progress"></div>
-                </div>
-                <span id="water-usage">100</span>
+                <span class="stat-label">Water Usage: <span id="water-usage" class="stat-value">100</span></span>
             </div>
             <div class="stat">
-                <span>Waste Production</span>
-                <div class="progress-container" data-value="100">
-                    <div class="progress"></div>
-                </div>
-                <span id="waste-production">100</span>
+                <span class="stat-label">Waste Production: <span id="waste-production" class="stat-value">100</span></span>
             </div>
             <div class="stat">
-                <span>Energy Usage</span>
-                <div class="progress-container" data-value="100">
-                    <div class="progress"></div>
-                </div>
-                <span id="energy-usage">100</span>
+                <span class="stat-label">Energy Usage: <span id="energy-usage" class="stat-value">100</span></span>
             </div>
             <div class="stat">
-                <span>Money</span>
-                <span id="money">$1000</span>
-            </div>
-            <div class="stat">
-                <span>Sustainability Score</span>
-                <span id="sustainability-score">0</span>
+                <span class="stat-label">Money: <span id="money" class="stat-value">1000</span></span>
             </div>
         </div>
 
